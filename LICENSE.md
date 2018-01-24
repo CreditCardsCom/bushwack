@@ -1,4 +1,4 @@
-MIT License
+## License (MIT)
 
 Copyright (c) 2018 CreditCards.com
 
