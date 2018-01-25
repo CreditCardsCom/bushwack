@@ -2,14 +2,64 @@
 
 
 [[projects]]
-  name = "github.com/Jeffail/tunny"
+  name = "github.com/aws/aws-lambda-go"
+  packages = [
+    "events",
+    "lambda",
+    "lambda/messages",
+    "lambdacontext"
+  ]
+  revision = "6e2e37798efbb1dfd8e9c6681702e683a6046517"
+  version = "v1.0.1"
+
+[[projects]]
+  name = "github.com/aws/aws-sdk-go"
+  packages = [
+    "aws",
+    "aws/awserr",
+    "aws/awsutil",
+    "aws/client",
+    "aws/client/metadata",
+    "aws/corehandlers",
+    "aws/credentials",
+    "aws/credentials/ec2rolecreds",
+    "aws/credentials/endpointcreds",
+    "aws/credentials/stscreds",
+    "aws/defaults",
+    "aws/ec2metadata",
+    "aws/endpoints",
+    "aws/request",
+    "aws/session",
+    "aws/signer/v4",
+    "internal/shareddefaults",
+    "private/protocol",
+    "private/protocol/query",
+    "private/protocol/query/queryutil",
+    "private/protocol/rest",
+    "private/protocol/restxml",
+    "private/protocol/xml/xmlutil",
+    "service/s3",
+    "service/s3/s3iface",
+    "service/s3/s3manager",
+    "service/sts"
+  ]
+  revision = "decd990ddc5dcdf2f73309cbcab90d06b996ca28"
+  version = "v1.12.67"
+
+[[projects]]
+  name = "github.com/go-ini/ini"
   packages = ["."]
-  revision = "225d3efa59875afce1610178bc69d5bdaa8509cf"
-  version = "0.1.0"
+  revision = "32e4c1e6bc4e7d0d8451aa6b75200d19e37a536a"
+  version = "v1.32.0"
+
+[[projects]]
+  name = "github.com/jmespath/go-jmespath"
+  packages = ["."]
+  revision = "0b12d6b5"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f65bf366cc31aa97632072637637b6c8e5ab2a2e0a270fc558f75fd06a61d102"
+  inputs-digest = "9a45e4cc35a56298dee070cbd2e07006a55b8cea23f969d5277e5a648c18fc5e"
   solver-name = "gps-cdcl"
   solver-version = 1
