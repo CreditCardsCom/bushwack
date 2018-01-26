@@ -1,7 +1,29 @@
 # bushwack
 
+*Why this name? Well, it seemed right at the time, and all logging related utilities seem to be named after the logging industry.*
+
+This uses the new AWS provided [go lambda toolkit](https://github.com/aws/aws-lambda-go).
+
 ## Running
 
+
+## Building
+
+Building the lambda per aws-lambda-go documentation:
+
+
+```bash
+GOOS=linux go build -o main main.go
+zip main.zip main
+```
+
+## Configuration
+
+The following environment variables are needed to run.
+
+#### `ES_HOST`
+
+Configures the Elasticsearch host that will be used to index the log output.
 
 ## License (MIT)
 
