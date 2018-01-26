@@ -71,6 +71,7 @@ func EventHandler(event events.S3Event) {
 
 		files = append(files, tf.Name())
 		objects = append(objects, o)
+		log.Printf("Processing s3://%s/%s\n", e.Bucket.Name, e.Object.Key)
 	}
 
 	it := &s3manager.DownloadObjectsIterator{Objects: objects}
