@@ -2,14 +2,28 @@
 
 *Why this name? Well, it seemed right at the time, and all logging related utilities seem to be named after the logging industry.*
 
-This uses the new AWS provided [go lambda toolkit](https://github.com/aws/aws-lambda-go).
+## Overview
 
-## Running
+After using an S3 input in logstash it seemed be to having constant issues attempting to ingest logs from our S3 bucket we use for access logs. Additionality we didn't really want to shuffle around the data or rename all keys to satisfy an exclude pattern within logstash.
 
+We realized lambda could accomplish the large task of indexing all logs into ElasticSearch in a *near* real time fashion (we want to index the logs as close to when AWS writes it into the bucket as possible).
+
+#### Caveats
+
+- We currently don't have any feature to retry indexing a log file if any type of failure happens.
+- We are only parsing ALB logs, not legacy ELB logs.
+
+## Setup
+
+Ensure you have [dep](https://github.com/golang/dep) installed.
+
+- `go get -d github.com/CreditCardsCom/bushwack`
+- `dep ensure`
+- `go test bushwack/`
 
 ## Building
 
-Building the lambda per aws-lambda-go documentation:
+This uses the new AWS provided [go lambda toolkit](https://github.com/aws/aws-lambda-go). Building the lambda per aws-lambda-go documentation:
 
 
 ```bash
@@ -19,7 +33,7 @@ zip main.zip main
 
 ## Configuration
 
-The following environment variables are needed to run.
+At this point the project only supports being run on [AWS Lambda](https://aws.amazon.com/lambda/). The following environment variables are needed to run.
 
 #### `ES_HOST`
 
