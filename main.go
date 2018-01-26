@@ -95,6 +95,11 @@ func processLog(filename string) {
 		log.Fatal(err)
 	}
 
+	if len(entries) == 0 {
+		log.Println("No entries to index.")
+		return
+	}
+
 	body, err := entries.SerializeBulkBody()
 	if err != nil {
 		log.Fatal(err)
@@ -106,7 +111,10 @@ func processLog(filename string) {
 	}
 
 	if resp.StatusCode != 200 {
-		log.Println("Yikes, looks like we had a request return a non-200 status")
+		log.Printf("Received unexpected status code %d.\n", resp.StatusCode)
+
+		reason, _ := ioutil.ReadAll(resp.Body)
+		log.Fatalf("Reason: %s", reason)
 	}
 
 	log.Printf("Sent off %d log entries.", len(entries))

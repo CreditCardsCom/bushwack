@@ -73,7 +73,8 @@ func (entries LogEntries) SerializeBulkBody() (string, error) {
 		lines = append(lines, string(j))
 	}
 
-	return strings.Join(lines, "\n"), nil
+	// Dont forget the last \n for the bulk api
+	return fmt.Sprintf("%s\n", strings.Join(lines, "\n")), nil
 }
 
 // 2018-01-22T23:55:03.306727Z
