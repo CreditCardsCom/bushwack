@@ -14,6 +14,14 @@ To use the latest packaged version of bushwack, simply launch the stack using th
 
 If you are wanting to host and maintain your own packaged code you can package it yourself and upload it to an S3 bucket that you own.
 
+First, make sure you have the binary built.
+
+```
+GOOS=linux go build -o main main.go
+```
+
+Then, package it up using the specified input template file and your specified S3 Bucket.
+
 ```
 aws cloudformation package \
    --template-file template.yml \

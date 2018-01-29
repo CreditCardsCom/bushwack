@@ -17,7 +17,7 @@ Resources:
   HandlerFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: main.main
+      Handler: main
       Runtime: go1.x
       MemorySize: 256
       Timeout: 30

@@ -16,3 +16,4 @@
 vendor/
 
 cfn-output.yaml
+main

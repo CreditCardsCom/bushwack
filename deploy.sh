@@ -2,6 +2,9 @@
 
 bucket=bushwack
 
+# Build binary
+GOOS=linux go build -o main main.go
+
 # Package using input template
 aws cloudformation package \
    --template-file template.yml \
