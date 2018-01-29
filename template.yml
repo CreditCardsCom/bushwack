@@ -8,7 +8,7 @@ Parameters:
     Description: The Elasticsearch URL that will hold the ALB log data
 
 Resources:
-  ProcessorFunction:
+  HandlerFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: main.main
