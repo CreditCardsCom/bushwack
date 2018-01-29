@@ -8,7 +8,7 @@
 
 To use the latest packaged version of bushwack, simply launch the stack using the latest packaged code.
 
-![Launch Stack](https://cdn.rawgit.com/buildkite/cloudformation-launch-stack-button-svg/master/launch-stack.svg)](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=bushwack&templateURL=https://s3-us-west-2.amazonaws.com/bushwack/cfn-output.yaml)
+[![Launch Stack](https://cdn.rawgit.com/buildkite/cloudformation-launch-stack-button-svg/master/launch-stack.svg)](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=bushwack&templateURL=https://s3-us-west-2.amazonaws.com/bushwack/cfn-output.yaml)
 
 ### Packaging Yourself
 
@@ -25,7 +25,7 @@ Then simply deploy using the cloudformation deploy command.
 
 ```
 aws cloudformation deploy \
-  --template-file /Users/cconey/projects/bushwack/serverless-output.yaml \
+  --template-file ./cfn-output.yaml \
   --stack-name <stack-name> \
   --parameter-overrides  EsUrl=<elasticsearch-url> \
   --capabilities CAPABILITY_IAM
