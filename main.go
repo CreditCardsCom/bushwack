@@ -3,6 +3,12 @@ package main
 import (
 	"compress/gzip"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+	"strings"
+
 	"github.com/CreditCardsCom/bushwack/bushwack"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -10,22 +16,14 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"os"
-	"strings"
 )
 
 var esUrl string
 
-const esHostDefault = "https://vpc-logstash-dev-vpc-uflljt22oi3shmsevidb235hxq.us-west-2.es.amazonaws.com"
-
 func init() {
 	host := os.Getenv("ES_HOST")
 	if host == "" {
-		host = esHostDefault
-		log.Println("ES_HOST was not set!")
+		log.Fatalln("No ES_HOST defined in the environment!")
 	}
 
 	esUrl = fmt.Sprintf("%s/_bulk", host)
@@ -36,6 +34,7 @@ func main() {
 }
 
 func EventHandler(event events.S3Event) {
+	// TODO: Use S3Event region instead of hardcoded
 	sess, err := session.NewSession(&aws.Config{Region: aws.String("us-west-2")})
 	if err != nil {
 		log.Fatal(err)

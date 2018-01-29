@@ -5,7 +5,13 @@ Description: A function for processing ALB logs and sending to ElasticSearch
 Parameters:
   ElasticsearchHost:
     Type: String
-    Description: The Elasticsearch URL that will hold the ALB log data
+    Description: The https Elasticsearch URL that will hold the ALB log data
+  SecurityGroupIds:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Description: The security groups that will be attached to lambda function
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: The subnets that lambda function will run in
 
 Resources:
   HandlerFunction:
@@ -13,7 +19,14 @@ Resources:
     Properties:
       Handler: main.main
       Runtime: go1.x
+      MemorySize: 256
+      Timeout: 30
+      VpcConfig:
+        SecurityGroupIds: !Ref SecurityGroupIds
+        SubnetIds: !Ref SubnetIds
       Environment:
         Variables:
           ES_HOST: !Ref ElasticsearchHost
-      Policies: AmazonS3ReadOnlyAccess
+      Policies: 
+        - AmazonS3ReadOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
