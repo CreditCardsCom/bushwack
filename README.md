@@ -2,6 +2,35 @@
 
 *Why this name? Well, it seemed right at the time, and all logging related utilities seem to be named after the logging industry.*
 
+## Quickstart
+
+### Using Latest Package
+
+To use the latest packaged version of bushwack, simply launch the stack using the latest packaged code.
+
+![Launch Stack](https://cdn.rawgit.com/buildkite/cloudformation-launch-stack-button-svg/master/launch-stack.svg)](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=bushwack&templateURL=https://s3-us-west-2.amazonaws.com/bushwack/cfn-output.yaml)
+
+### Packaging Yourself
+
+If you are wanting to host and maintain your own packaged code you can package it yourself and upload it to an S3 bucket that you own.
+
+```
+aws cloudformation package \
+   --template-file template.yml \
+   --output-template-file cfn-output.yaml \
+   --s3-bucket <your-bucket>
+```
+
+Then simply deploy using the cloudformation deploy command.
+
+```
+aws cloudformation deploy \
+  --template-file /Users/cconey/projects/bushwack/serverless-output.yaml \
+  --stack-name <stack-name> \
+  --parameter-overrides  EsUrl=<elasticsearch-url> \
+  --capabilities CAPABILITY_IAM
+```
+
 ## Overview
 
 After using an S3 input in logstash it seemed be to having constant issues attempting to ingest logs from our S3 bucket we use for access logs. Additionality we didn't really want to shuffle around the data or rename all keys to satisfy an exclude pattern within logstash.
