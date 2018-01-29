@@ -3,7 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: A function for processing ALB logs and sending to ElasticSearch
 
 Parameters:
-  EsUrl:
+  ElasticsearchHost:
     Type: String
     Description: The Elasticsearch URL that will hold the ALB log data
 
@@ -15,5 +15,5 @@ Resources:
       Runtime: go1.x
       Environment:
         Variables:
-          ES_URL: !Ref EsUrl
+          ES_HOST: !Ref ElasticsearchHost
       Policies: AmazonS3ReadOnlyAccess
