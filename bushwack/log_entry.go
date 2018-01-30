@@ -14,8 +14,10 @@ type LogEntry struct {
 	Protocol         string `json:"protocol"`
 	Timestamp        string `json:"@timestamp"`
 	LoadBalancer     string `json:"load_balancer"`
-	RemoteAddress    string `json:"remote_address"`
-	TargetAddress    string `json:"target_address"`
+	RemoteIp         string `json:"remote_ip"`
+	RemotePort       int    `json:"remote_port"`
+	TargetIp         string `json:"target_ip"`
+	TargetPort       int    `json:"target_port"`
 	ElbStatusCode    int    `json:"elb_status_code"`
 	TargetStatusCode int    `json:"target_status_code"`
 	Method           string `json:"method"`
@@ -38,12 +40,16 @@ func (entries *LogEntries) PushEntry(args []string) {
 	lb := normalizeTripleSlash(args[2])
 	tg := normalizeTripleSlash(args[16])
 	method, url := splitRequest(args[12])
+	rip, rport := splitPort(args[3])
+	tip, tport := splitPort(args[4])
 	e := LogEntry{
 		Protocol:         p,
 		Timestamp:        args[1],
 		LoadBalancer:     lb,
-		RemoteAddress:    args[3],
-		TargetAddress:    args[4],
+		RemoteIp:         rip,
+		RemotePort:       rport,
+		TargetIp:         tip,
+		TargetPort:       tport,
 		ElbStatusCode:    sc,
 		TargetStatusCode: tsc,
 		Method:           method,
@@ -96,6 +102,16 @@ func parseInt(i string) int {
 	}
 
 	return int(ret)
+}
+
+func splitPort(s string) (string, int) {
+	parts := strings.Split(s, ":")
+
+	if len(parts) < 2 {
+		return s, -1
+	}
+
+	return parts[0], parseInt(parts[1])
 }
 
 func normalizeProtocol(p string) string {
