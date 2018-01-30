@@ -16,7 +16,7 @@ type LogEntry struct {
 	LoadBalancer     string `json:"load_balancer"`
 	RemoteAddress    string `json:"remote_address"`
 	TargetAddress    string `json:"target_address"`
-	StatusCode       int    `json:"status_code"`
+	ElbStatusCode    int    `json:"elb_status_code"`
 	TargetStatusCode int    `json:"target_status_code"`
 	Method           string `json:"method"`
 	Url              string `json:"url"`
@@ -44,7 +44,7 @@ func (entries *LogEntries) PushEntry(args []string) {
 		LoadBalancer:     lb,
 		RemoteAddress:    args[3],
 		TargetAddress:    args[4],
-		StatusCode:       sc,
+		ElbStatusCode:    sc,
 		TargetStatusCode: tsc,
 		Method:           method,
 		Url:              url,
