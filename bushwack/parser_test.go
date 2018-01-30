@@ -52,13 +52,13 @@ func TestParseLog(t *testing.T) {
 	}
 
 	f := `failure to parse`
-	_, err = ParseLog(f)
-	if err != InvalidLogFormat {
-		t.Fatalf("Expected error of type 'InvalidLogFormat`, but got '%s'.", err)
+	entries, err = ParseLog(f)
+	if err != nil {
+		t.Fatalf("Unexpected error: %s\n", err)
 	}
 
-	if err == nil {
-		t.Fatalf("Expected error to parse invalid log format.")
+	if l := len(entries); l != 0 {
+		t.Fatalf("Expected 0 entries, but got %d\n", l)
 	}
 }
 
