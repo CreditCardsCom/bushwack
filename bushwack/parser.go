@@ -79,7 +79,7 @@ func splitOnSpaceOrQuotes(data []byte, atEOF bool) (int, []byte, error) {
 
 	if i != 0 && word[0] == '"' {
 		// The whole word is quoted
-		if l := len(word); word[l-1] == '"' {
+		if l := len(word); l > 1 && word[l-1] == '"' {
 			return i, word[1 : l-1], nil
 		}
 
