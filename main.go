@@ -1,7 +1,6 @@
 package main
 
 import (
-	"compress/gzip"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -80,29 +79,19 @@ func EventHandler(event events.S3Event) {
 	}
 
 	for _, f := range files {
-		processLog(f)
+		handleLogfile(f)
 	}
 }
 
-func processLog(filename string) {
-	contents, err := decompress(filename)
+func handleLogfile(filename string) {
+	num, body, err := bushwack.ProcessLog(filename)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Error file processing log: %s\n", err)
 	}
 
-	entries, err := bushwack.ParseLog(string(contents))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	if len(entries) == 0 {
-		log.Println("No entries to index.")
+	if num == 0 {
+		log.Println("No bulk body to send.")
 		return
-	}
-
-	body, err := entries.SerializeBulkBody()
-	if err != nil {
-		log.Fatal(err)
 	}
 
 	resp, err := http.Post(esUrl, "application/x-ndjson", strings.NewReader(body))
@@ -117,21 +106,5 @@ func processLog(filename string) {
 		log.Fatalf("Reason: %s", reason)
 	}
 
-	log.Printf("Sent off %d log entries.", len(entries))
-}
-
-func decompress(f string) ([]byte, error) {
-	fd, err := os.Open(f)
-	if err != nil {
-		return nil, err
-	}
-	defer fd.Close()
-
-	r, err := gzip.NewReader(fd)
-	if err != nil {
-		return nil, err
-	}
-	defer r.Close()
-
-	return ioutil.ReadAll(r)
+	log.Printf("Sent off %d log entries.", num)
 }

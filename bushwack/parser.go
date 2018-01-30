@@ -3,11 +3,38 @@ package bushwack
 import (
 	"bufio"
 	"bytes"
+	"compress/gzip"
 	"errors"
+	"io/ioutil"
+	"os"
 	"strings"
 )
 
 var InvalidLogFormat = errors.New("Invalid log format, expecting 20 fields")
+
+func ProcessLog(filename string) (int, string, error) {
+	contents, err := decompress(filename)
+	if err != nil {
+		return 0, "", err
+	}
+
+	entries, err := ParseLog(string(contents))
+	if err != nil {
+		return 0, "", err
+	}
+
+	num := len(entries)
+	if num == 0 {
+		return 0, "", nil
+	}
+
+	body, err := entries.SerializeBulkBody()
+	if err != nil {
+		return 0, "", err
+	}
+
+	return num, body, nil
+}
 
 func ParseLog(src string) (LogEntries, error) {
 	logs := NewLogEntries()
@@ -69,4 +96,20 @@ func splitOnSpaceOrQuotes(data []byte, atEOF bool) (int, []byte, error) {
 
 	// Return bufio.ScanWords output if we haven't found a quote
 	return i, word, err
+}
+
+func decompress(f string) ([]byte, error) {
+	fd, err := os.Open(f)
+	if err != nil {
+		return nil, err
+	}
+	defer fd.Close()
+
+	r, err := gzip.NewReader(fd)
+	if err != nil {
+		return nil, err
+	}
+	defer r.Close()
+
+	return ioutil.ReadAll(r)
 }
