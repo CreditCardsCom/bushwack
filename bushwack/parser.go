@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-var InvalidLogFormat = errors.New("Invalid log format, expecting 20 fields")
+var InvalidLogFormat = errors.New("Invalid log format, expecting >=20 fields")
 var ClosingQuoteNotFound = errors.New("Closing quote not found in line")
 
 func ProcessLog(filename string) (int, string, error) {
@@ -78,7 +78,7 @@ func parseLine(line string) ([]string, error) {
 		return nil, err
 	}
 
-	if len(args) != 20 {
+	if len(args) < 20 {
 		return nil, InvalidLogFormat
 	}
 
