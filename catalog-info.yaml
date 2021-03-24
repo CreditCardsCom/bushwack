@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component # Possible values `component`, `api`, `resource`, and `system`
+metadata:
+  name: bushwack
+  description: TBD # Needs value
+  annotations:
+    jira/project-key: TBD # Needs value
+    github.com/project-slug: CreditCardsCom/bushwack
+    github.com/team-slug: TBD # Sluggified github team name
+    circleci.com/project-slug: github/CreditCardsCom/bushwack
+spec:
+  type: service # Possible values `service`, `website`, and `library`
+  lifecycle: production # Possible values `experimental`, `production`, and `deprecated`
+  owner: TBD # Sluggified github team name
